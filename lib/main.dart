@@ -18,19 +18,22 @@ class IpAddressTracker extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         textTheme: TextTheme(
           headline1: const TextStyle(
+            fontFamily: 'Rubik',
             fontSize: 20.0,
             color: Colors.white,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w500,
           ),
           bodyText1: TextStyle(
+            fontFamily: 'Rubik',
             fontSize: 14.0,
             color: const HSLColor.fromAHSL(1, 0, 0, 0.17).toColor(),
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
           ),
           bodyText2: TextStyle(
-            fontSize: 11.0,
+            fontFamily: 'Rubik',
+            fontSize: 9,
             color: const HSLColor.fromAHSL(1, 0, 0, 0.59).toColor(),
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             letterSpacing: 1.1,
           ),
         ),
