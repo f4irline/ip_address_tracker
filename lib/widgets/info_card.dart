@@ -17,7 +17,7 @@ class _InfoCardState extends State<InfoCard> {
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
         ),
-        padding: const EdgeInsets.symmetric(vertical: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
@@ -76,7 +76,7 @@ class _InfoCardState extends State<InfoCard> {
           ]
               .map(
                 (col) => Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: col,
                 ),
               )
