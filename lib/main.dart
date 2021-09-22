@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ip_address_tracker/widgets/header.dart';
+import 'package:ip_address_tracker/widgets/info_card.dart';
+import 'package:ip_address_tracker/widgets/ip_input.dart';
 import 'package:ip_address_tracker/widgets/leaflet_map.dart';
 
 void main() {
@@ -44,11 +46,30 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: const [
-          Header(),
-          LeafletMap(),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: const [
+                Header(),
+                LeafletMap(),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Column(
+                children: [
+                  Text(
+                    'IP Address Tracker',
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                  const IpInput(),
+                  const InfoCard(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
