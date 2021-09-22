@@ -13,7 +13,26 @@ class IpAddressTracker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+        textTheme: TextTheme(
+          headline1: const TextStyle(
+            fontSize: 20.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
+          bodyText1: TextStyle(
+            fontSize: 14.0,
+            color: const HSLColor.fromAHSL(1, 0, 0, 0.17).toColor(),
+            fontWeight: FontWeight.w700,
+          ),
+          bodyText2: TextStyle(
+            fontSize: 11.0,
+            color: const HSLColor.fromAHSL(1, 0, 0, 0.59).toColor(),
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.1,
+          ),
+        ),
+      ),
       home: const MainView(),
     );
   }
