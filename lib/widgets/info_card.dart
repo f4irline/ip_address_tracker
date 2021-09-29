@@ -8,17 +8,17 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: locationInfo != null
-            ? Column(
+    return locationInfo != null
+        ? SizedBox(
+            width: double.infinity,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
                 children: [
                   Column(
                     children: [
@@ -84,9 +84,9 @@ class InfoCard extends StatelessWidget {
                       ),
                     )
                     .toList(),
-              )
-            : const Text('No location info available yet.'),
-      ),
-    );
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }
