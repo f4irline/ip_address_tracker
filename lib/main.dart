@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ip_address_tracker/models/location_info.dart';
+import 'package:ip_address_tracker/services/ip_address_api.dart';
 import 'package:ip_address_tracker/widgets/header.dart';
 import 'package:ip_address_tracker/widgets/info_card.dart';
 import 'package:ip_address_tracker/widgets/ip_input.dart';
@@ -11,7 +13,6 @@ void main() {
 class IpAddressTracker extends StatelessWidget {
   const IpAddressTracker({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,8 +44,24 @@ class IpAddressTracker extends StatelessWidget {
   }
 }
 
-class MainView extends StatelessWidget {
+class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
+
+  @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
+  LocationInfo? locationInfo;
+  final IpAddressApiService ipAddressApiService = IpAddressApiService();
+
+  void getLocationInfo(String ipAddress) {
+    ipAddressApiService.getIpAddressData(ipAddress).then((info) => {
+          setState(() {
+            locationInfo = info;
+          })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +84,10 @@ class MainView extends StatelessWidget {
                     'IP Address Tracker',
                     style: Theme.of(context).textTheme.headline1,
                   ),
-                  const IpInput(),
-                  const InfoCard(),
+                  IpInput(
+                    setIpAddress: getLocationInfo,
+                  ),
+                  InfoCard(locationInfo: locationInfo),
                 ],
               ),
             ),

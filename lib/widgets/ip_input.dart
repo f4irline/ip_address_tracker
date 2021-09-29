@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-class IpInput extends StatefulWidget {
-  const IpInput({Key? key}) : super(key: key);
+class IpInput extends StatelessWidget {
+  IpInput({Key? key, required this.setIpAddress}) : super(key: key);
 
-  @override
-  _IpInputState createState() => _IpInputState();
-}
-
-class _IpInputState extends State<IpInput> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _ipAddressController = TextEditingController();
+  final Function setIpAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +46,7 @@ class _IpInputState extends State<IpInput> {
                       icon: const Icon(Icons.keyboard_arrow_right),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          setIpAddress(_ipAddressController.text);
                           _ipAddressController.clear();
                         }
                       },

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ip_address_tracker/models/location_info.dart';
 
-class InfoCard extends StatefulWidget {
-  const InfoCard({Key? key}) : super(key: key);
+class InfoCard extends StatelessWidget {
+  const InfoCard({Key? key, this.locationInfo}) : super(key: key);
 
-  @override
-  _InfoCardState createState() => _InfoCardState();
-}
+  final LocationInfo? locationInfo;
 
-class _InfoCardState extends State<InfoCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,69 +17,75 @@ class _InfoCardState extends State<InfoCard> {
         ),
         padding: const EdgeInsets.symmetric(vertical: 10),
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Text(
-                  'IP Address'.toUpperCase(),
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  '192.168.10.1',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  'Location'.toUpperCase(),
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  'Brooklyn, NY 10001',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  'Timezone'.toUpperCase(),
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  'UTC-05:00',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Text(
-                  'ISP'.toUpperCase(),
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  'SpaceX Starlink',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ],
-            ),
-          ]
-              .map(
-                (col) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: col,
-                ),
+        child: locationInfo != null
+            ? Column(
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        'IP Address'.toUpperCase(),
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        locationInfo!.ip,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Location'.toUpperCase(),
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        '${locationInfo!.location.city}, ${locationInfo!.location.region}'
+                        '${locationInfo!.location.postalCode.isNotEmpty ? ', ${locationInfo!.location.postalCode}' : ''}',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Timezone'.toUpperCase(),
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        locationInfo!.location.timezone,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'ISP'.toUpperCase(),
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        locationInfo!.as != null &&
+                                locationInfo!.as!.name.isNotEmpty
+                            ? locationInfo!.as!.name
+                            : locationInfo!.isp,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ],
+                  ),
+                ]
+                    .map(
+                      (col) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: col,
+                      ),
+                    )
+                    .toList(),
               )
-              .toList(),
-        ),
+            : const Text('No location info available yet.'),
       ),
     );
   }
