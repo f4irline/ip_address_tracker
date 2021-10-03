@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ip_address_tracker/models/location_info.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -17,11 +18,12 @@ class LeafletMap extends StatelessWidget {
     List<Marker> markers = locationInfo != null
         ? [
             Marker(
-              width: 80.0,
-              height: 80.0,
+              width: 46.0,
+              height: 56.0,
               point: LatLng(
                   locationInfo!.location.lat, locationInfo!.location.lng),
-              builder: (ctx) => const FlutterLogo(),
+              builder: (ctx) =>
+                  SvgPicture.asset('assets/icons/icon-location.svg'),
             ),
           ]
         : [];
