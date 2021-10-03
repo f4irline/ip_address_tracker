@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:ip_address_tracker/models/location_info.dart';
 import 'package:ip_address_tracker/services/ip_address_api.dart';
 import 'package:ip_address_tracker/widgets/header.dart';
 import 'package:ip_address_tracker/widgets/info_card.dart';
 import 'package:ip_address_tracker/widgets/ip_input.dart';
 import 'package:ip_address_tracker/widgets/leaflet_map.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() {
   runApp(const IpAddressTracker());
@@ -52,15 +55,35 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  LocationInfo? locationInfo;
-  final IpAddressApiService ipAddressApiService = IpAddressApiService();
+  LocationInfo? _locationInfo;
+  late final MapController _mapController;
+  late final IpAddressApiService _ipAddressApiService;
 
   void getLocationInfo(String ipAddress) {
-    ipAddressApiService.getIpAddressData(ipAddress).then((info) => {
-          setState(() {
-            locationInfo = info;
-          })
-        });
+    _ipAddressApiService.getIpAddressData(ipAddress).then((info) {
+      setState(() {
+        _locationInfo = info;
+        _mapController.move(
+          LatLng(
+            info.location.lat + 0.0001,
+            info.location.lng,
+          ),
+          18.0,
+        );
+      });
+    }).catchError((err) {
+      setState(() {
+        _locationInfo = null;
+      });
+      throw err;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _mapController = MapController();
+    _ipAddressApiService = IpAddressApiService();
   }
 
   @override
@@ -71,9 +94,12 @@ class _MainViewState extends State<MainView> {
         child: Stack(
           children: [
             Column(
-              children: const [
-                Header(),
-                LeafletMap(),
+              children: [
+                const Header(),
+                LeafletMap(
+                  mapController: _mapController,
+                  locationInfo: _locationInfo,
+                ),
               ],
             ),
             Padding(
@@ -87,7 +113,7 @@ class _MainViewState extends State<MainView> {
                   IpInput(
                     setIpAddress: getLocationInfo,
                   ),
-                  InfoCard(locationInfo: locationInfo),
+                  InfoCard(locationInfo: _locationInfo),
                 ],
               ),
             ),
