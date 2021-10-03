@@ -59,7 +59,7 @@ class _MainViewState extends State<MainView> {
   late final MapController _mapController;
   late final IpAddressApiService _ipAddressApiService;
 
-  void getLocationInfo(String ipAddress) {
+  void getLocationInfo(BuildContext ctx, String ipAddress) {
     _ipAddressApiService.getIpAddressData(ipAddress).then((info) {
       setState(() {
         _locationInfo = info;
@@ -74,6 +74,14 @@ class _MainViewState extends State<MainView> {
     }).catchError((err) {
       setState(() {
         _locationInfo = null;
+        ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
+          content: Text(
+            'Couldn\'t find location info by given IP address!',
+            style: TextStyle(color: Colors.white),
+          ),
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
+        ));
       });
       throw err;
     });
@@ -111,7 +119,9 @@ class _MainViewState extends State<MainView> {
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   IpInput(
-                    setIpAddress: getLocationInfo,
+                    setIpAddress: ((String text) {
+                      getLocationInfo(context, text);
+                    }),
                   ),
                   InfoCard(locationInfo: _locationInfo),
                 ],

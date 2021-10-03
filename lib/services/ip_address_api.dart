@@ -18,7 +18,7 @@ class IpAddressApiService {
     if (res.statusCode == 200) {
       return LocationInfo.fromJson(jsonDecode(res.body));
     } else {
-      throw "Unable to retrieve location info.";
+      return Future.error("Unable to retrieve location info.");
     }
   }
 }
