@@ -7,6 +7,14 @@ class IpInput extends StatelessWidget {
   final _ipAddressController = TextEditingController();
   final Function setIpAddress;
 
+  void _onIpSubmitted(BuildContext ctx) {
+    if (_formKey.currentState!.validate()) {
+      setIpAddress(_ipAddressController.text);
+      _ipAddressController.clear();
+      FocusScope.of(ctx).unfocus();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,6 +32,9 @@ class IpInput extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   style: const TextStyle(color: Colors.black),
+                  onFieldSubmitted: ((_) {
+                    _onIpSubmitted(context);
+                  }),
                   decoration: InputDecoration(
                     contentPadding:
                         const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
@@ -44,12 +55,9 @@ class IpInput extends StatelessWidget {
                     suffixIcon: IconButton(
                       color: Colors.black,
                       icon: const Icon(Icons.keyboard_arrow_right),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          setIpAddress(_ipAddressController.text);
-                          _ipAddressController.clear();
-                        }
-                      },
+                      onPressed: (() {
+                        _onIpSubmitted(context);
+                      }),
                     ),
                   ),
                   validator: (String? value) {
