@@ -7,6 +7,7 @@ import 'package:ip_address_tracker/widgets/header.dart';
 import 'package:ip_address_tracker/widgets/info_card.dart';
 import 'package:ip_address_tracker/widgets/ip_input.dart';
 import 'package:ip_address_tracker/widgets/leaflet_map.dart';
+import 'package:ip_address_tracker/widgets/loader.dart';
 import 'package:latlong2/latlong.dart';
 
 void main() {
@@ -56,15 +57,21 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   LocationInfo? _locationInfo;
+  bool _loading = false;
   late final MapController _mapController;
   late final IpAddressApiService _ipAddressApiService;
 
   void getLocationInfo(BuildContext ctx, String ipAddress) {
+    setState(() {
+      _loading = true;
+    });
     _ipAddressApiService.getIpAddressData(ipAddress).then((info) {
       setState(() {
         _locationInfo = info;
         _mapController.move(
           LatLng(
+            // Offset to show the location pointer icon properly without it
+            // appearing under the info card
             info.location.lat + 0.0001,
             info.location.lng,
           ),
@@ -76,7 +83,7 @@ class _MainViewState extends State<MainView> {
         _locationInfo = null;
         ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
           content: Text(
-            'Couldn\'t find location info by given IP address!',
+            'Couldn\'t find location info by given IP address.',
             style: TextStyle(color: Colors.white),
           ),
           duration: Duration(seconds: 3),
@@ -84,6 +91,10 @@ class _MainViewState extends State<MainView> {
         ));
       });
       throw err;
+    }).whenComplete(() {
+      setState(() {
+        _loading = false;
+      });
     });
   }
 
@@ -127,6 +138,7 @@ class _MainViewState extends State<MainView> {
                 ],
               ),
             ),
+            _loading ? const Loader() : Container(),
           ],
         ),
       ),
