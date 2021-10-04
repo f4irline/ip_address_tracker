@@ -32,7 +32,7 @@ class LeafletMap extends StatelessWidget {
         mapController: mapController,
         options: MapOptions(
           center: LatLng(0, 0),
-          zoom: 1.0,
+          zoom: 3.0,
         ),
         layers: [
           TileLayerOptions(
