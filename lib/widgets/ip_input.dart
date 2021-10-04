@@ -56,7 +56,7 @@ class IpInput extends StatelessWidget {
                       borderSide: const BorderSide(style: BorderStyle.none),
                     ),
                     filled: true,
-                    hintText: 'Enter a IP Address',
+                    hintText: 'Enter a IP address',
                     hintStyle: const TextStyle(
                       color: Colors.grey,
                     ),
