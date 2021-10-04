@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const regExp = r'^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$';
+
 class IpInput extends StatelessWidget {
   IpInput({Key? key, required this.setIpAddress}) : super(key: key);
 
@@ -13,6 +15,13 @@ class IpInput extends StatelessWidget {
       _ipAddressController.clear();
       FocusScope.of(ctx).unfocus();
     }
+  }
+
+  String? _validateIpInput(String? input) {
+    var isEmpty = input == null || input.isEmpty;
+    if (isEmpty) return 'Please enter a IP address.';
+    var matchesRegex = RegExp(regExp).hasMatch(input!);
+    return matchesRegex ? null : 'The entered IP address is not valid.';
   }
 
   @override
@@ -60,12 +69,7 @@ class IpInput extends StatelessWidget {
                       }),
                     ),
                   ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a IP Address';
-                    }
-                    return null;
-                  },
+                  validator: _validateIpInput,
                 ),
               ),
             ],
