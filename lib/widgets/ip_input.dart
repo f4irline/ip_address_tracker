@@ -60,6 +60,9 @@ class IpInput extends StatelessWidget {
                     hintStyle: const TextStyle(
                       color: Colors.grey,
                     ),
+                    errorStyle: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                    ),
                     fillColor: Colors.white,
                     suffixIcon: IconButton(
                       color: Colors.black,
