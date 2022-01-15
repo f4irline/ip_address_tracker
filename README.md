@@ -1,6 +1,18 @@
-# ip_address_tracker
+# IP Address Tracker
 
-A new Flutter project.
+A simple Flutter application to find address by given IP address. The purpose of the project was to simply try and learn Flutter a bit.
+
+![Image of the app](/doc/ip_address_tracker_1.png)
+![Image of the app](/doc/ip_address_tracker_2.png)
+
+## Technologies
+- Flutter
+- [flutter_map](https://pub.dev/packages/flutter_map)
+  - A Dart implementation of Leaflet for Flutter apps
+- [flutter_svg](https://pub.dev/packages/flutter_svg)
+  - Draw SVG files on a Flutter Widget
+- [GeoIP API](https://geo.ipify.org/)
+  - Used to get the geolocation info from the given IP address
 
 ## Getting Started
 
